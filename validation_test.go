@@ -73,3 +73,22 @@ func TestOnlyAlphabet(t *testing.T) {
 		}
 	}
 }
+
+func TestOnlySafeString(t *testing.T) {
+	tests := []string{"Fu-mi", "p_", "-_", "12", "@", "+", "  ", "あいう"}
+	for i, v := range tests {
+		if i < 4 {
+			if OnlySafeString(v) {
+				t.Log("OnlySafeString Test(" + v + "): ok")
+			} else {
+				t.Error("OnlySafeString Test(" + v + "): false")
+			}
+		} else {
+			if OnlySafeString(v) {
+				t.Error("OnlySafeString Test(" + v + "): false")
+			} else {
+				t.Log("OnlySafeString Test(" + v + "): ok")
+			}
+		}
+	}
+}

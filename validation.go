@@ -41,3 +41,13 @@ func OnlyAlphabet(s string) (r bool) {
 	}
 	return
 }
+
+func OnlySafeString(s string) (r bool) {
+	reg, _ := regexp.Compile("^[a-zA-Z0-9-_]*$")
+	if reg.MatchString(s) {
+		r = true
+	} else {
+		r = false
+	}
+	return
+}
