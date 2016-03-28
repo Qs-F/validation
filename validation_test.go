@@ -75,20 +75,30 @@ func TestOnlyAlphabet(t *testing.T) {
 }
 
 func TestOnlySafeString(t *testing.T) {
-	tests := []string{"Fu-mi", "p_", "-_", "12", "@", "+", "  ", "あいう"}
+	tests := []string{"Fu-mi", "p_.", "-_", "12", "@", "+", "  ", "あいう"}
 	for i, v := range tests {
 		if i < 4 {
 			if OnlySafeString(v) {
-				t.Log("OnlySafeString Test(" + v + "): ok")
+				t.Log("OnlySafeString Test("+v+"): ok", OnlySafeString(v))
 			} else {
-				t.Error("OnlySafeString Test(" + v + "): false")
+				t.Error("OnlySafeString Test("+v+"): false", OnlySafeString(v))
 			}
 		} else {
 			if OnlySafeString(v) {
-				t.Error("OnlySafeString Test(" + v + "): false")
+				t.Error("OnlySafeString Test("+v+"): false", OnlySafeString(v))
 			} else {
-				t.Log("OnlySafeString Test(" + v + "): ok")
+				t.Log("OnlySafeString Test("+v+"): ok", OnlySafeString(v))
 			}
 		}
+	}
+}
+
+func TestErrors(t *testing.T) {
+	v := SetValue("Namae!")
+	v.Required()
+	v.MaxSize(2, "user name must be smaller than 3 chars.")
+	v.MinSize(1, "user name musi be bigger than 1 char.")
+	for _, m := range v.Errors() {
+		t.Log(m.Error())
 	}
 }
