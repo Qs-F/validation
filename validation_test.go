@@ -101,4 +101,16 @@ func TestErrors(t *testing.T) {
 	for _, m := range v.Errors() {
 		t.Log(m.Error())
 	}
+	v = SetValue("testmail..@docomo.ne.jp")
+	v.Required()
+	v.OnlyMail("pls enter valid mail address")
+	for _, m := range v.Errors() {
+		t.Log(m.Error())
+	}
+	v = SetValue("testmail+mail@gmail.com")
+	v.Required()
+	v.OnlyMail("pls enter valid mail address")
+	for _, m := range v.Errors() {
+		t.Log(m.Error())
+	}
 }

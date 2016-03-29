@@ -55,6 +55,26 @@ func OnlySafeString(s string) (r bool) {
 	return
 }
 
+func OnlyMail(s string) (r bool) {
+	reg, _ := regexp.Compile("^[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[a-zA-Z0-9](?:[\\w-]*[\\w])?$") // special thanks: regexp by copyright 2016 Revel
+	if reg.MatchString(s) {
+		r = true
+	} else {
+		r = false
+	}
+	return
+}
+
+// func OnlyPassword(s string) (r bool) {
+// 	reg, _ := regexp.Compile("^[A-Za-z0-9-+=^~:;<>'\"/_.,#%&$!@?`{}[\\]()&]*$")
+// 	if reg.MatchString(s) {
+// 		r = true
+// 	} else {
+// 		r = false
+// 	}
+// 	return
+// }
+
 func RegexpMatch(s string, pattern string) (r bool) {
 	reg, err := regexp.Compile(pattern)
 	if err != nil {
@@ -93,7 +113,9 @@ const (
 	MinSizeDefaultMessage_        = "field is too small."
 	OnlyAlphabetDefaultMessage_   = "field is required only alphabet."
 	OnlySafeStringDefaultMessage_ = "field is required only a-z, A-Z, and some signs(_, - , .)."
-	RegexpMatchDefaultMessage_    = "field is not fullfilled."
+	OnlyMailDefaultMessage_       = "field is required only valid mail address."
+	// OnlyPasswordDefaultMessage_   = "password field accept only A-Z, a-z, 0-9, and some signs( -+=^~:;<>'\"/_.,#%&$!@?`{}[\\]()& )"
+	RegexpMatchDefaultMessage_ = "field is not fullfilled."
 )
 
 func processErrMsg(defaultMsg string, s ...string) (r string) {
@@ -144,6 +166,21 @@ func (v *Validation) OnlySafeString(errMsg ...string) (ok bool) {
 	}
 	return
 }
+
+func (v *Validation) OnlyMail(errMsg ...string) (ok bool) {
+	ok = OnlyMail(v.String)
+	if !ok {
+		v.validationErrors = append(v.validationErrors, errors.New(processErrMsg(OnlyMailDefaultMessage_, errMsg...)))
+	}
+	return
+}
+
+// func (v *Validation) OnlyPassword(errMsg ...string) (ok bool) {
+// 	ok = OnlyPassword(v.String)
+// 	if !ok {
+// 		v.validationErrors = append(v.validationErrors, errors.New(processErrMsg(OnlyPasswordDefaultMessage_, errMsg...)))
+// 	}
+// }
 
 func (v *Validation) RegexpMatch(pattern string, errMsg ...string) (ok bool) {
 	ok = RegexpMatch(v.String, pattern)
