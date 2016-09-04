@@ -36,7 +36,7 @@ func MinSize(s string, min int) (r bool) {
 }
 
 func OnlyAlphabet(s string) (r bool) {
-	reg, _ := regexp.Compile("^[a-zA-Z]*$")
+	reg, _ := regexp.Compile("\\A[a-zA-Z]*\\z")
 	if reg.MatchString(s) {
 		r = true
 	} else {
@@ -46,7 +46,7 @@ func OnlyAlphabet(s string) (r bool) {
 }
 
 func OnlySafeString(s string) (r bool) {
-	reg, _ := regexp.Compile("^[a-zA-Z0-9-_.]*$")
+	reg, _ := regexp.Compile("\\A[a-zA-Z0-9-_.]*\\z")
 	if reg.MatchString(s) {
 		r = true
 	} else {
@@ -56,7 +56,7 @@ func OnlySafeString(s string) (r bool) {
 }
 
 func OnlyMail(s string) (r bool) {
-	reg, _ := regexp.Compile("^[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[a-zA-Z0-9](?:[\\w-]*[\\w])?$") // special thanks: regexp by copyright 2016 Revel
+	reg, _ := regexp.Compile("\\A[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[a-zA-Z0-9](?:[\\w-]*[\\w])?\\z") // special thanks: regexp by copyright 2016 Revel
 	if reg.MatchString(s) {
 		r = true
 	} else {
